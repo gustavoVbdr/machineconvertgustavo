@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversor de Bases</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #63B1BC;
+            margin: 0;
+            padding: 0;
+        }
+
+        #container {
+            width: 80%;
+            margin: 50px auto;
+            text-align: center;
+        }
+
+        h1 {
+            color: #1F2A44;
+        }
+
+        input[type="text"] {
+            padding: 8px;
+            font-size: 16px;
+            border-radius: 5px;
+            width: 200px;
+            text-align: center;
+        }
+
+        select,
+        button {
+            padding: 8px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button {
+            background-color: #ED145B;
+            color: #FFFFFF;
+            border: none;
+        }
+
+        #div_output {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #D0D3D4;
+            border: 1px solid #63666A;
+            text-align: left;
+            display: none;
+        }
+
+        .select-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <h1>Conversor de Bases</h1>
+
+        <input id="input_valor" type="text" placeholder="Digite um valor" maxlength="1">
+        <br><br>
+
+        <div class="select-group">
+            <div>
+                <label><b>De:</b></label><br>
+                <select id="sel_base_origem">
+                    <option value="decimal">Decimal</option>
+                    <option value="binario">Binário</option>
+                    <option value="hexadecimal">Hexadecimal</option>
+                </select>
+            </div>
+
+            <div>
+                <label><b>Para:</b></label><br>
+                <select id="sel_base_destino">
+                    <option value="decimal">Decimal</option>
+                    <option value="binario">Binário</option>
+                    <option value="hexadecimal">Hexadecimal</option>
+                </select>
+            </div>
+        </div>
+
+        <br>
+        <button onclick="converter()">Converter</button>
+
+        <div id="div_output"></div>
+    </div>
+</body>
+
+</html>
+
+<script>
+    function converter() {
+        var valor = input_valor.value
+        var base_origem = sel_base_origem.value
+        var base_destino = sel_base_destino.value
+        var numero_decimal = 0
+        var resultado = ''
+
+        div_output.style.display = 'block'
+        div_output.innerHTML = ''
+
+        if (valor == '') {
+            div_output.innerHTML = 'Digite um valor para converter.'
+        } else {
+            if (base_origem == 'decimal') {
+                numero_decimal = Number(valor)
+            }
+
+            if (base_origem == 'binario') {
+                if (valor == '1') {
+                    numero_decimal = 1
+                } else {
+                    numero_decimal = 0
+                }
+            }
+
+            if (base_origem == 'hexadecimal') {
+                var letra = valor.toUpperCase()
+                if (letra == 'A') {
+                    numero_decimal = 10
+                } else if (letra == 'B') {
+                    numero_decimal = 11
+                } else if (letra == 'C') {
+                    numero_decimal = 12
+                } else if (letra == 'D') {
+                    numero_decimal = 13
+                } else if (letra == 'E') {
+                    numero_decimal = 14
+                } else if (letra == 'F') {
+                    numero_decimal = 15
+                } else {
+                    numero_decimal = Number(letra)
+                }
+            }
+
+            if (base_destino == 'decimal') {
+                resultado = numero_decimal
+            }
+
+            if (base_destino == 'binario') {
+                if (numero_decimal == 0) {
+                    resultado = '0'
+                } else {
+                    resultado = '1'
+                }
+            }
+
+            if (base_destino == 'hexadecimal') {
+                var letras = ['A', 'B', 'C', 'D', 'E', 'F']
+                if (numero_decimal < 10) {
+                    resultado = numero_decimal
+                } else {
+                    resultado = letras[numero_decimal - 10]
+                }
+            }
+
+            div_output.innerHTML = 'Resultado: ' + resultado
+        }
+    }
+</script>
